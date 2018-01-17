@@ -46,8 +46,8 @@ function cargaPagina(url,num,params){
               if(resp.tipo==2) listarSolicitudesSinAsignarDiv("dirpc");
               else if(resp.tipo==1){
                 setTimeout(function(){
-                 // cargarMateriaSelect("materia");
-                  obtener_datos("materia");
+                 cargarMateriaSelect("materia");
+                  // obtener_datos("materia");
                   llenarSelectAnio('#anio');
                   llenarSelectMes2('#mes');
                   llenarSelectDias('#dia');
@@ -650,3 +650,4 @@ $$(document).on('pageInit', function (e) {
 
 
 })
+
