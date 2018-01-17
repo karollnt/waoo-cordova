@@ -62,11 +62,9 @@ function register(){
     data: datos,
     success: function(resp) {
       window.localStorage.setItem("nickname", userNick.val());
-      actualizarToken();
+      window.localStorage.removeItem("devToken");
+      actualizarTokenRegistro(userNick.val());
       alert(resp.msg);
-      $("#RegisterForm")[0].reset();
-      misendbird.preInit(userNick.val());
-      location.href = 'index.html';
     },
     error: function(e) {
       alert('Error: ' + e.message);
@@ -89,11 +87,9 @@ function register2(){
     success: function(resp) {
       var json = JSON.parse(resp);
       window.localStorage.setItem("nickname", userNick.val());
-      actualizarToken();
+      window.localStorage.removeItem("devToken");
+      actualizarTokenRegistro(userNick.val());
       alert(json.msg);
-      $("#RegisterForm2")[0].reset();
-      misendbird.preInit(userNick.val());
-      location.href = 'index.html';
     },
     error: function(e) {
       alert('Error: ' + e.message);
@@ -466,7 +462,21 @@ function actualizarToken() {
       window.localStorage.setItem('devToken',ids.userId);
       setToken(ids.userId);
     });
+    return;
   }
+  setToken(token);
+}
+
+function actualizarTokenRegistro(userNick) {
+  var token = window.localStorage.getItem("devToken");
+  if (!token) {
+    window.plugins.OneSignal.getIds(function(ids) {
+      window.localStorage.setItem('devToken',ids.userId);
+      setTokenRegistro(ids.userId, userNick);
+    });
+    return;
+  }
+  setToken(token);
 }
 
 function setToken(token) {
@@ -479,6 +489,27 @@ function setToken(token) {
       dataType: "json",
       data : {token: token, nickname:usuario, plataforma:plataforma},
       success : function(resp) {},
+      error: function(e) {}
+    });
+  }
+}
+
+function setTokenRegistro(token,userNick) {
+  var usuario = window.localStorage.getItem("nickname");
+  var plataforma = window.localStorage.getItem("plataforma");
+  if(token != null) {
+    $.ajax({
+      type : 'post',
+      url : waooserver+"/usuarios/actualizarToken",
+      dataType: "json",
+      data : {token: token, nickname:usuario, plataforma:plataforma},
+      success : function(resp) {
+        $("#RegisterForm")[0].reset();
+        misendbird.preInit(userNick);
+        verificaRedirect(userNick);
+        myApp.closeModal('.popup',true);
+        $('.popup-overlay').removeClass('modal-overlay-visible');
+      },
       error: function(e) {}
     });
   }
