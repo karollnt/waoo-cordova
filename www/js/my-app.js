@@ -9,6 +9,11 @@ var myApp = new Framework7({
 	cache: false
 });
 
+// var stripe = Stripe('pk_test_p3DpWmwhaj9rhsnPB0Yzf5Jz');
+var stripe = Stripe('pk_live_b2JObdxnS706upAE1VYcFiMy');
+var elements = stripe.elements();
+var card;
+
 //backend server address
 var waooserver = "http://waoo.herokuapp.com";
 // var waooserver = "http://localhost/waoobackend";
@@ -135,8 +140,9 @@ function cargaPagina(url,num,params){
           llenarSelectMes('.js-expirationMonth');
           llenarSelectAnio('.js-expirationYear');
           mercpagoui.initEvents();*/
-          consultarTokens();
-          initBraintree();
+					consultarTokens();
+					card = elements.create('card');
+					card.mount('#card-element');
           $('.js-id-solicitud').val(params.idpreciotrabajo);
           $('.js-checkout-total').val(params.valor);
           $('.js-nickname').val(window.localStorage.getItem('nickname'));
@@ -324,7 +330,15 @@ jQuery(document).ready(function() {
     else {
       $('input[name='+fieldName+']').val(0);
     }
-  });
+	});
+	
+	$(document).on('submit', '.js-payment-form', function (ev) {
+		ev.preventDefault();
+		var promise = stripe.createToken(card);
+		promise.then(function (result) {
+			efectuarPagoBT(result.token.id);
+		});
+	});
 
 });
 

@@ -538,13 +538,17 @@ function aceptarOferta0(id, valor) {
   cargaPagina('data/pasarelaCredito.html', 10, { idpreciotrabajo: id, valor: valor });
 }
 
-function efectuarPagoBT(formSelector) {
-  var formData = $(formSelector).serialize();
+function efectuarPagoBT(token) {
+  var data = {
+    amount: $('.js-checkout-total').val(),
+    token: token,
+    nickname: $('.js-nickname').val()
+  };
   var ajx = $.ajax({
     type: 'post',
     url: waooserver + '/solicitudes/procesarPagoBT',
     dataType: 'json',
-    data: formData
+    data: data
   });
   ajx.done(function (resp) {
     if (resp.msg.indexOf('Pago recibido satisfactoriamente') > -1) {

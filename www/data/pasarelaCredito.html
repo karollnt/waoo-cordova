@@ -12,25 +12,19 @@
           <div class="row center-block">
             <ul class="responsive_table">
               <li class="table_row">
-                 <span style = "display : none "class="soft" id='cantidad-tokens'>Actualmente cuentas con  <span class="js-cantidad-tokens">0</span> tokens.</span>
+                 <span style = "display : none "class="soft" id='cantidad-tokens'>Actualmente cuentas con  <span class="js-cantidad-tokens">0</span> pesos.</span>
               </li>
             </ul>
           </div>
           <form method="post" class="js-payment-form" action="">
-            <section class="contactform">
-              <div class="form_row">
-                <label for="amount" class="heading">Valor</label>
-                <input type="text" name="amount" id="amount" class="js-checkout-total form_input" readonly>
-                <input type="hidden" class="js-id-solicitud" value="0" name="idpreciotrabajo">
-                <input type="hidden" class="js-nickname" value="" name="nickname">
-                <input type="hidden" class="js-client-token" value="" name="clientauth">
-              </div>
-              <div class="bt-drop-in-wrapper">
-                <div class="js-dropin-container"></div>
-              </div>
-            </section>
-            <input id="nonce" name="payment_method_nonce" type="hidden" />
-            <button class="button btn-lg btn-block" type="submit"><span>Enviar</span></button>
+            <label for="amount" class="heading">Valor</label>
+            <input type="text" name="amount" id="amount" class="js-checkout-total form_input" readonly>
+            <div id="card-element" class="m-b-5"></div>
+            <input type="hidden" class="js-id-solicitud" value="0" name="idpreciotrabajo">
+            <input type="hidden" class="js-nickname" value="" name="nickname">
+            <button class="button btn-lg btn-block" type="submit">
+              <span>Enviar</span>
+            </button>
           </form>
         </div>
       </div>
