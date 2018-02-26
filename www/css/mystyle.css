@@ -60,6 +60,13 @@ ul.features_list_detailed li .feat_small_details h4 {position: static;}
   margin-right: 15px;
 }
 
+.tutor-registering-message {
+  font-size: 20px;
+}
+
+.tutor-registering-message a {
+  font-weight: bold;
+}
 .centered-or {
   font-size: 20px;
   font-weight: 500;
