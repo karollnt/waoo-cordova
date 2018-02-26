@@ -141,7 +141,7 @@ function cargaPagina(url,num,params){
           llenarSelectAnio('.js-expirationYear');
           mercpagoui.initEvents();*/
 					consultarTokens();
-					card = elements.create('card');
+					card = elements.create('card',{ hidePostalCode:true});
 					card.mount('#card-element');
           $('.js-id-solicitud').val(params.idpreciotrabajo);
           $('.js-checkout-total').val(params.valor);
