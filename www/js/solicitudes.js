@@ -533,6 +533,50 @@ function aceptarOferta(id,valor) {
   });
 }
 
+function obtenerBToken() {
+  var ajax = $.ajax({
+    type: 'post',
+    url: waooserver + "/usuarios/buscarUsuario",
+    dataType: 'json',
+    data: { nickname: window.localStorage.getItem("nickname") }
+  });
+  ajax.done(function (response) {
+    if (response.bt_token != '') {
+      $('.js-bt-token').val(response);
+      $('.js-use-saved-card').removeClass('hide');
+    }
+  });
+}
+
+function pagarConGuardada(event) {
+  var data = {
+    amount: $('.js-checkout-total').val(),
+    token: $('.js-bt-token').val(),
+    nickname: $('.js-nickname').val()
+  };
+  var ajax = $.ajax({
+    type: 'post',
+    url: waooserver + '/solicitudes/procesarPagoBT',
+    dataType: 'json',
+    data: data
+  });
+  ajax.done(function (resp) {
+    if (resp.msg.indexOf('Pago recibido satisfactoriamente') > -1) {
+      cargaPagina('data/chats.html');
+      setTimeout(function () {
+        misendbird.setChannel('');
+        misendbird.init(0, resp.nickasistente, resp.id);
+      }, 400);
+    }
+    else {
+      alert(resp.msg);
+    }
+  })
+  .fail(function (e) {
+    alert('Error: ' + e.message);
+  });;
+}
+
 
 function aceptarOferta0(id, valor) {
   cargaPagina('data/pasarelaCredito.html', 10, { idpreciotrabajo: id, valor: valor });
