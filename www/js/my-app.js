@@ -141,12 +141,17 @@ function cargaPagina(url,num,params){
           llenarSelectAnio('.js-expirationYear');
           mercpagoui.initEvents();*/
 					consultarTokens();
-					card = elements.create('card');
-					card.mount('#card-element');
+					try {
+						card = elements.create('card', { hidePostalCode: true });
+						card.mount('#card-element');
+					} catch (error) {
+						console.log(error);
+					}
           $('.js-id-solicitud').val(params.idpreciotrabajo);
           $('.js-checkout-total').val(params.valor);
           $('.js-nickname').val(window.localStorage.getItem('nickname'));
-          $('.js-client-token').val(window.localStorage.getItem('bt_token'));
+					$('.js-client-token').val(window.localStorage.getItem('bt_token'));
+					obtenerBToken();
           /*if (params.tokens) {
             var ajax = $.ajax({
               type : 'post',
@@ -336,9 +341,15 @@ jQuery(document).ready(function() {
 		ev.preventDefault();
 		var promise = stripe.createToken(card);
 		promise.then(function (result) {
+			if (result.error) {
+				alert(result.error.message);
+				return;
+			}
 			efectuarPagoBT(result.token.id);
 		});
 	});
+
+	$(document).on('click', '.js-pay-with-saved-card', pagarConGuardada);
 
 });
 
