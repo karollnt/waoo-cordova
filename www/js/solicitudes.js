@@ -542,7 +542,9 @@ function obtenerBToken() {
   });
   ajax.done(function (response) {
     if (response.bt_token != '') {
-      $('.js-bt-token').val(response);
+      $('.js-bt-token').val(response.bt_token);
+      $('.js-client-token').val(response.bt_token);
+      window.localStorage.setItem('bt_token', response.bt_token);
       $('.js-use-saved-card').removeClass('hide');
     }
   });
@@ -552,7 +554,8 @@ function pagarConGuardada(event) {
   var data = {
     amount: $('.js-checkout-total').val(),
     token: $('.js-bt-token').val(),
-    nickname: $('.js-nickname').val()
+    nickname: $('.js-nickname').val(),
+    idpreciotrabajo: $('.js-id-solicitud').val()
   };
   var ajax = $.ajax({
     type: 'post',
@@ -586,7 +589,8 @@ function efectuarPagoBT(token) {
   var data = {
     amount: $('.js-checkout-total').val(),
     token: token,
-    nickname: $('.js-nickname').val()
+    nickname: $('.js-nickname').val(),
+    idpreciotrabajo: $('.js-id-solicitud').val()
   };
   var ajx = $.ajax({
     type: 'post',
