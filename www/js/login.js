@@ -53,7 +53,7 @@ function logout(){
 
 function register(){
   var userNick = $(".js-user-reg");
-  userNick.val( userNick.val().toLowerCase() );
+  userNick.val( $.trim(userNick.val().toLowerCase().replace(/\s+/,'-')) );
   var datos = $("#RegisterForm").serialize();
   $.ajax({
     type: "post",
@@ -73,8 +73,8 @@ function register(){
 }
 
 function register2(){
-  var userNick = $(".js-assistant-reg");
-  userNick.val(userNick.val().toLowerCase());
+  var userNames = $.trim($(".js-assistant-name").val().toLowerCase().replace(/\s+/,'-'));
+  $(".js-assistant-reg").val(userNames);
   var formData = new FormData( $("#RegisterForm2")[0]);
   $.ajax({
     type: "post",
