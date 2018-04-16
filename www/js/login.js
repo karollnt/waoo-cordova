@@ -86,7 +86,7 @@ function register2(){
     processData: false,
     success: function(resp) {
       var json = JSON.parse(resp);
-      window.localStorage.setItem("nickname", userNick.val());
+      window.localStorage.setItem("nickname", userNames);
       window.localStorage.removeItem("devToken");
       actualizarTokenRegistro(userNick.val());
       alert(json.msg);
